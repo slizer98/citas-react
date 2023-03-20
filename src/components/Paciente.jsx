@@ -1,6 +1,31 @@
-
-const Paciente = ({paciente, setPaciente}) => {
-  const {nombre, propietario, email, fecha, sintomas} = paciente;
+// importar sweetalert2
+import Swal from 'sweetalert2';
+const Paciente = ({paciente, setPaciente, eliminarPaciente}) => {
+  const {nombre, propietario, email, fecha, sintomas, id} = paciente;
+  const handleEliminar = () => {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Un paciente eliminado no se puede recuperar",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Eliminado!',
+                'El paciente ha sido eliminado.',
+                'success'
+            )
+            eliminarPaciente(id);
+        }
+    }).catch(error => {
+        console.log(error);
+    });
+    
+  };
   return (
     <div className="mt-3 bg-white shadow-md px-5 py-10 rounded-xl"> 
         <p className="font-bold mb-3 text-gray-700 uppercase">
@@ -33,6 +58,7 @@ const Paciente = ({paciente, setPaciente}) => {
             <button 
                 type="button"
                 className="py-2 px-10 bg-red-600 hover:bg-red-700 text-white font-bold uppercase rounded-lg"
+                onClick={handleEliminar}
             >Eliminar</button>
         </div>
     </div>
